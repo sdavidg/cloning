@@ -1,6 +1,7 @@
 package com.rits.cloning;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,11 +9,10 @@ import java.util.Map;
  *
  * 21 May 2009
  */
-public class FastClonerArrayList implements IFastCloner
-{
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-    public Object clone(final Object t, final IDeepCloner cloner, final Map<Object, Object> clones) {
-		ArrayList al = (ArrayList) t;
+public class FastClonerArrayListSubList implements IFastCloner {
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public Object clone(final Object t, final IDeepCloner cloner, final Map<Object, Object> clones) {
+		List al = (List) t;
 		int size = al.size();
 		ArrayList l = new ArrayList(size);
 		for (int i = 0; i < size; i++) {

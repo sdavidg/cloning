@@ -2,6 +2,16 @@
 
 Cloning can be potentially dangerous. Cloning files, streams can make the JVM crash. Also cloning proxies (i.e. objects returned by ORM libraries) means a big graph of objects might be cloned which can lead to performance issues and potential crashes. Always enable cloner's debug mode during development, which will print all cloned classes to the console : cloner.setDumpClonedClasses(true)
 
+# Jdk 9
+
+You may get a warning in jdk 9 due to the reflection that the cloning library uses to clone objects:
+
+    WARNING: An illegal reflective access operation has occurred
+    WARNING: Illegal reflective access by com.rits.cloning.Cloner 
+    WARNING: Please consider reporting this to the maintainers of com.rits.cloning.Cloner
+    WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+    WARNING: All illegal access operations will be denied in a future release
+
 # Example #
 You can create a single instance of cloner and use it throughout your application to deep clone objects. Once instantiated and configured, then the cloner is thread safe and can be reused, provided it's configuration is not altered.
 
@@ -101,6 +111,26 @@ cloner.setDumpClonedClasses(true);
 You can manually clone some of your classes to improve cloning performance. Instantiating the class and copying fields might be faster in several cases. Please Check IFastCloner interface and cloner.registerFastCloner(Class c, IFastCloner fastCloner).
 In case you need to clone a custom collection or map, please extend one of the abstract FastClonerCustom**classes.**
 
+Example:
+
+```
+cloner.registerFastCloner(HashMap.class, new FastClonerHashMap());
+
+public class FastClonerHashMap implements IFastCloner
+{
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+    public Object clone(final Object t, final IDeepCloner cloner, final Map<Object, Object> clones) {
+		final HashMap<Object, Object> m = (HashMap) t;
+		final HashMap result = new HashMap();
+		for (final Map.Entry e : m.entrySet()) {
+			result.put(cloner.deepClone(e.getKey(), clones), cloner.deepClone(e.getValue(), clones));
+		}
+		return result;
+	}
+}
+
+```
+
 # Immutable #
 
 Since 1.7.5 there is a new annotation: @Immutable . Marking a class as @Immutable instructs the cloner to avoid cloning it - a performance optimisation. Please check the source of com.rits.cloning.Immutable for further info.
@@ -135,6 +165,14 @@ final Cloner cloner = new Cloner()
 };
 ```
 
+# Null Fields #
+
+If you want to null fields which are annotated by a specific annotation, you can register
+this annotation using the method:
+
+```
+cloner.nullInsteadOfCloneFieldAnnotation(NullAnnotation.class)
+```
 
 # More ... #
 

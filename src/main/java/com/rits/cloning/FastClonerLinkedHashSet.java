@@ -1,19 +1,20 @@
 package com.rits.cloning;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 
 /**
- * @author kostantinos.kougios
- *
- * 21 May 2009
+ * Fast Cloner for LinkedHashSet
+ * 
+ * @author Tobias Weimer
  */
-public class FastClonerHashSet implements IFastCloner
+public class FastClonerLinkedHashSet implements IFastCloner
 {
+	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
     public Object clone(final Object t, final IDeepCloner cloner, final Map<Object, Object> clones) {
-		final HashSet al = (HashSet) t;
-		final HashSet l = new HashSet();
+		final LinkedHashSet<?> al = (LinkedHashSet) t;
+		final LinkedHashSet l = new LinkedHashSet();
 		for (final Object o : al)
 		{
 			l.add(cloner.deepClone(o, clones));

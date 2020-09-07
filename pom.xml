@@ -6,12 +6,12 @@
 		<artifactId>oss-parent</artifactId>
 		<version>5</version>
 	</parent>
-	<groupId>uk.com.robust-it</groupId>
+	<groupId>io.github.kostaskougios</groupId>
 	<artifactId>cloning</artifactId>
 	<packaging>bundle</packaging>
-	<version>1.9.5</version>
+	<version>1.10.3</version>
 	<name>cloning</name>
-	<url>https://code.google.com/p/cloning/</url>
+	<url>https://github.com/kostaskougios/cloning/</url>
 	<description><![CDATA[
                 The cloning library is a small, open source (Apache
                 licensed) Java library which deep-clones objects. The
@@ -46,8 +46,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<compilerArgument>-Xlint:unchecked</compilerArgument>
 				</configuration>
 			</plugin>
@@ -82,6 +82,7 @@
 							<goal>jar</goal>
 						</goals>
 						<configuration>
+							<source>8</source>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
 					</execution>
@@ -133,7 +134,7 @@
 		<dependency>
 			<groupId>org.objenesis</groupId>
 			<artifactId>objenesis</artifactId>
-			<version>2.5.1</version>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 	<profiles>
@@ -162,4 +163,4 @@
 			</build>
 		</profile>
 	</profiles>
-</project> 
+</project>
